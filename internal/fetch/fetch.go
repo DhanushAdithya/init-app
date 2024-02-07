@@ -10,7 +10,7 @@ import (
 
 const baseURL = "http://localhost:11434/api/generate"
 
-const requestBody = `{"model": "phi", "prompt": \"%s\", "stream": false}`
+const requestBody = `{"model": "phi", "prompt": "%s", "stream": false}`
 
 var client = &http.Client{}
 
