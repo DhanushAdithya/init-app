@@ -3,8 +3,11 @@ package cmd
 import (
 	"fmt"
 	"init/internal/fetch"
+	"init/internal/tui"
 	"init/internal/utils"
 	"os"
+	"sync"
+
 	// "os/exec"
 	"strings"
 
@@ -25,18 +28,28 @@ var fixCmd = &cobra.Command{
 			fmt.Println(err)
 			return
 		}
-		historyCmds := strings.Split(string(history), "\n")
-		lastCmd := historyCmds[len(historyCmds)-3]
+		historyCmds := strings.Split(strings.TrimSpace(string(history)), "\n")
+		lastCmd := historyCmds[len(historyCmds)-2]
 		// lcmd := exec.Command(lastCmd)
 		// err = lcmd.Run()
 		// if err != nil {
 		// 	if exitError, ok := err.(*exec.ExitError); ok {
-		fmt.Print(fmt.Sprintf(utils.FixPrompt, lastCmd, 1))
 		res, err := fetch.Fetch(fmt.Sprintf(utils.FixPrompt, lastCmd, 1))
+		var wg sync.WaitGroup
+		wg.Add(1)
+		response := make(chan struct{})
+		go func() {
+			defer wg.Done()
+			tui.RenderLoad("Generating solution to fix the "+"`"+lastCmd+"` command", response)
+		}()
 		if err != nil {
+			close(response)
+			wg.Wait()
 			fmt.Println(err)
 			return
 		}
+		close(response)
+		wg.Wait()
 		fmt.Println(res.Response)
 		// 	}
 		// }
