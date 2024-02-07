@@ -7,6 +7,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	FixPrompt = "fix the linux command \"%s\" that returns the error code of %d"
+)
+
 func SetupConfig() {
 	viper.SetConfigName("init-app")
 	viper.SetConfigType("yaml")
