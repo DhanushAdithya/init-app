@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	FixPrompt = "fix the linux command \"%s\" that returns the error code of %d"
+	FixPrompt = "explain how to fix the error while running '%s' command that returns the error code of %d in a very few words"
 )
 
 func SetupConfig() {

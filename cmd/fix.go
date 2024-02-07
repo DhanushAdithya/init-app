@@ -31,6 +31,7 @@ var fixCmd = &cobra.Command{
 		// err = lcmd.Run()
 		// if err != nil {
 		// 	if exitError, ok := err.(*exec.ExitError); ok {
+		fmt.Print(fmt.Sprintf(utils.FixPrompt, lastCmd, 1))
 		res, err := fetch.Fetch(fmt.Sprintf(utils.FixPrompt, lastCmd, 1))
 		if err != nil {
 			fmt.Println(err)
