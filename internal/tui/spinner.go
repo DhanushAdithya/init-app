@@ -21,6 +21,12 @@ func (l Loading) Init() tea.Cmd {
 
 func (l Loading) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	l.spinner, _ = l.spinner.Update(msg)
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		if msg.String() == "q" || msg.String() == "ctrl+c" {
+			return l, tea.Quit
+		}
+	}
 	select {
 	case <-l.response:
 		l.loading = false

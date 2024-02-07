@@ -34,7 +34,6 @@ var fixCmd = &cobra.Command{
 		// err = lcmd.Run()
 		// if err != nil {
 		// 	if exitError, ok := err.(*exec.ExitError); ok {
-		res, err := fetch.Fetch(fmt.Sprintf(utils.FixPrompt, lastCmd, 1))
 		var wg sync.WaitGroup
 		wg.Add(1)
 		response := make(chan struct{})
@@ -42,6 +41,7 @@ var fixCmd = &cobra.Command{
 			defer wg.Done()
 			tui.RenderLoad("Generating solution to fix the "+"`"+lastCmd+"` command", response)
 		}()
+		res, err := fetch.Fetch(fmt.Sprintf(utils.FixPrompt, lastCmd, 1))
 		if err != nil {
 			close(response)
 			wg.Wait()
