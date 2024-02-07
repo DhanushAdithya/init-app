@@ -5,7 +5,7 @@ import (
 	"init/internal/fetch"
 	"init/internal/utils"
 	"os"
-	"os/exec"
+	// "os/exec"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -27,18 +27,18 @@ var fixCmd = &cobra.Command{
 		}
 		historyCmds := strings.Split(string(history), "\n")
 		lastCmd := historyCmds[len(historyCmds)-3]
-		lcmd := exec.Command(lastCmd)
-		err = lcmd.Run()
+		// lcmd := exec.Command(lastCmd)
+		// err = lcmd.Run()
+		// if err != nil {
+		// 	if exitError, ok := err.(*exec.ExitError); ok {
+		res, err := fetch.Fetch(fmt.Sprintf(utils.FixPrompt, lastCmd, 1))
 		if err != nil {
-			if exitError, ok := err.(*exec.ExitError); ok {
-				res, err := fetch.Fetch(fmt.Sprintf(utils.FixPrompt, lastCmd, exitError.ExitCode()))
-				if err != nil {
-					fmt.Println(err)
-					return
-				}
-				fmt.Println(res.Response)
-			}
+			fmt.Println(err)
+			return
 		}
+		fmt.Println(res.Response)
+		// 	}
+		// }
 	},
 }
 
